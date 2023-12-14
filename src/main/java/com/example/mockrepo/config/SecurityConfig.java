@@ -18,8 +18,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/all/**").permitAll()
+                                .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults());
+                .httpBasic(withDefaults());
         return http.build();
     }
 }

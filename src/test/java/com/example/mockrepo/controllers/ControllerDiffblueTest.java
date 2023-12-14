@@ -1,12 +1,13 @@
 package com.example.mockrepo.controllers;
 
 import com.example.mockrepo.service.Service;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -22,22 +23,10 @@ class ControllerDiffblueTest {
      * Method under test: {@link Controller#admin()}
      */
     @Test
-    @Disabled("TODO: Complete this test")
-    void testAdmin() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   jakarta.servlet.ServletException: Request processing failed: java.lang.NullPointerException: Cannot invoke "org.springframework.security.core.Authentication.getName()" because the return value of "org.springframework.security.core.context.SecurityContext.getAuthentication()" is null
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   java.lang.NullPointerException: Cannot invoke "org.springframework.security.core.Authentication.getName()" because the return value of "org.springframework.security.core.context.SecurityContext.getAuthentication()" is null
-        //       at com.example.mockrepo.controllers.Controller.admin(Controller.java:17)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        (new Controller()).admin();
+    void testAdmin() throws Exception {
+        SecurityMockMvcRequestBuilders.FormLoginRequestBuilder requestBuilder = SecurityMockMvcRequestBuilders.formLogin();
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(controller).build().perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
@@ -50,9 +39,8 @@ class ControllerDiffblueTest {
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().size(0))
-                .andExpect(MockMvcResultMatchers.view().name("you should log in, NOW!"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("you should log in, NOW!"));
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("you should log in, NOW!"));
     }
 
     /**
@@ -66,9 +54,8 @@ class ControllerDiffblueTest {
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().size(0))
-                .andExpect(MockMvcResultMatchers.view().name("you should log in, NOW!"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("you should log in, NOW!"));
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("you should log in, NOW!"));
     }
 
     /**
@@ -81,9 +68,8 @@ class ControllerDiffblueTest {
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().size(0))
-                .andExpect(MockMvcResultMatchers.view().name("Hello"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("Hello"));
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("Hello"));
     }
 
     /**
@@ -97,8 +83,7 @@ class ControllerDiffblueTest {
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().size(0))
-                .andExpect(MockMvcResultMatchers.view().name("Hello"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("Hello"));
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("Hello"));
     }
 }
